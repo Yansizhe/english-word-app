@@ -26,6 +26,11 @@ while True:
     # if user_input.lower() in ["quit","exit","q"]:
     #   break
     
+    if not (user_input.isascii() and user_input.isalpha()):
+        print("请输入正确的形式！")
+        print(end="\n")
+        continue
+
     response = client.chat.completions.create(
         model="deepseek-chat",
         messages=[
@@ -35,3 +40,4 @@ while True:
     )
     # 打印 AI 的回答
     print("AI 回答：", response.choices[0].message.content)
+    print(end="\n")
