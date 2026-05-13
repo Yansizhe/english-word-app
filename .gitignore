@@ -1,0 +1,11 @@
+# 环境变量文件，里面有API Key ，绝对不能上传Git
+.env 
+
+# Python 缓存文件 
+# Python 运行时会自动产生这个缓存文件夹，不该上传
+# Python 编译过的中间文件，不该上传
+__pycache__/   
+*.pyc          
+
+# 临时文件
+key.txt
