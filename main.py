@@ -10,6 +10,22 @@ client = OpenAI(
     base_url="https://api.deepseek.com"
 )
 
+SYSTEM_PROMPT = """你是一位英语老师。对每个单词给出：
+                    中文释义、词性、英文例句、例句中文翻译
+                    如果不是真实英文单词，只回复"无此单词"。"""
+
+def ask_ai(system_prompt, user_message):
+    response = client.chat.completions.create(
+        model="deepseek-chat",
+        messages=[
+            {"role": "system","content": system_prompt},
+            {"role": "user", "content": user_message}
+        ]
+    )
+
+    return response.choices[0].message.content
+
+
 while True:
     user_input = input("请输入要学习的英文单词:")
 
@@ -20,17 +36,8 @@ while True:
         print("请输入英语单词！")
         print()
         continue
-
-    response = client.chat.completions.create(
-        model="deepseek-chat",
-        messages=[
-            {"role": "system",
-             "content": """你是一位英语老师。对每个单词给出：
-                    中文释义、词性、英文例句、例句中文翻译
-                    如果不是真实英文单词，只回复"无此单词"。"""},
-            {"role": "user", "content": f"请讲解单词：{user_input}"}
-        ]
-    )
-
-    print("AI 回答：", response.choices[0].message.content)
+    
+    user_message = f"请讲解单词：{user_input}"
+    result = ask_ai(SYSTEM_PROMPT, user_message)
+    print("AI 回答：",result)
     print()
