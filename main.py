@@ -15,14 +15,17 @@ SYSTEM_PROMPT = """你是一位英语老师。对每个单词给出：
                     如果不是真实英文单词，只回复"无此单词"。"""
 
 def ask_ai(system_prompt, user_message):
-    response = client.chat.completions.create(
-        model="deepseek-chat",
-        messages=[
-            {"role": "system","content": system_prompt},
-            {"role": "user", "content": user_message}
-        ]
-    )
-
+    try:
+        response = client.chat.completions.create(
+            model="deepseek-chat",
+            messages=[
+                {"role": "system","content": system_prompt},
+                {"role": "user", "content": user_message}
+            ]
+        )
+    except Exception as e:
+        return f"😵 调用 AI 失败：{e}"
+    
     return response.choices[0].message.content
 
 
